@@ -9,7 +9,9 @@
 import MenuBarView from '@/components/Menubar/MenuBarView'
 export default {
   name: 'App',
-  components: { MenuBarView }
+  components: {
+    MenuBarView
+  }
 }
 </script>
 
