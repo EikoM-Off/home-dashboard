@@ -6,6 +6,7 @@ import PrimeVue from 'primevue/config'
 import 'primeflex/primeflex.min.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
+import '@/assets/css/helper.css'
 import '@/config/firebase.config'
 
 import 'primevue/resources/themes/saga-blue/theme.css'
