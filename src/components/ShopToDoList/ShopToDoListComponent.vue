@@ -1,34 +1,45 @@
 <template>
-<div>
+<Card class="shadow-5">
+  <template #title>
+    <div class="flex flex-row justify-content-between">
+      Списки покупок/заданий
+      <Button
+          icon="pi pi-plus"
+          class="p-button-sm p-button-secondary p-button-rounded align-self-center"
+          v-tooltip.left="'Создать новый список'"
+          @click="$store.commit('addList', 'Новый список')"
+      />
+    </div>
+  </template>
+  <template #content>
   <TabView :scrollable="true" :activeIndex.sync="activeTab">
     <TabPanel
     v-for="(list, index) in shopToDoLists"
-    :key="list.title + index"
+    :key="list.settings.title + index"
     >
       <template #header>
-        <span>{{ list.title }}</span>
         <Button
-            class="p-button-sm p-button-text p-button-rounded p-button-secondary ml-2"
+            class="p-button-sm p-button-text p-button-rounded p-button-secondary mr-2"
             icon="pi pi-pencil"
-            @click="$refs.op.toggle($event)"
+            @click="[currentList = list, $refs.op.toggle($event)]"
             aria-controls="overlay_panel"
             aria:haspopup="true"
         />
+        <span>{{ list.settings.title }}</span>
       </template>
         <ShopToDoTable
-            :key="list.items.length"
             class="-m-3"
             v-model:list="list.items"
-            @addNewRow="list.items.push({ title: '', isDone: false })"
+            @addNewRow="addNewRow(list)"
             @removeRow="list.items.splice($event, 1)"
         />
     </TabPanel>
   </TabView>
-  <Button icon="pi pi-plus" class="p-button-sm p-button-text p-button-rounded -m-2" @click="$store.commit('addList', 'new List')"/>
   <OverlayPanel ref="op" appendTo="body" :showCloseIcon="true" id="overlay_panel">
-
+    <ListSettings v-model:settings="currentList.settings" @removeList="removeList"/>
   </OverlayPanel>
-</div>
+  </template>
+</Card>
 </template>
 
 <script>
@@ -37,18 +48,51 @@ import TabPanel from 'primevue/tabpanel'
 import { mapGetters } from 'vuex'
 import ShopToDoTable from '@/components/ShopToDoList/ShopToDoTable'
 import OverlayPanel from 'primevue/overlaypanel'
+import ListSettings from '@/components/ShopToDoList/ListSettings'
 
 export default {
   name: 'ShopToDoListComponent',
   data: () => ({
-    activeTab: 0
+    activeTab: 0,
+    currentList: null
   }),
   computed: {
     ...mapGetters({
       shopToDoLists: 'getShopToDoLists'
     })
   },
+  methods: {
+    addNewRow (list) {
+      list.items ? list.items.push({ title: 'Введите наименование', isDone: false }) : list.items = [{ title: 'Введите наименование', isDone: false }]
+    },
+    removeList () {
+      this.$confirm.require({
+        message: 'Вы действительно хотите удалить список?',
+        header: 'Подтвердите',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Да',
+        acceptClass: 'p-button-danger',
+        rejectLabel: 'Нет',
+        accept: () => {
+          this.$store.commit('removeList', this.activeTab)
+          this.$refs.op.hide()
+        }
+      })
+    }
+  },
+  watch: {
+    shopToDoLists: {
+      handler (newValue, oldValue) {
+        this.$store.dispatch('updateShopToDoLists')
+      },
+      deep: true
+    }
+  },
+  mounted () {
+    this.$store.dispatch('getShopToDoLists')
+  },
   components: {
+    ListSettings,
     ShopToDoTable,
     OverlayPanel,
     TabView,

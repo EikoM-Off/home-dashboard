@@ -1,4 +1,4 @@
-import { getAuth, signInWithEmailAndPassword, getRedirectResult } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, getRedirectResult, signOut } from 'firebase/auth'
 
 export default {
   actions: {
@@ -18,27 +18,33 @@ export default {
       const auth = getAuth()
       getRedirectResult(auth)
         .then((result) => {
-          // This gives you a Google Access Token. You can use it to access Google APIs.
-          // const credential = GoogleAuthProvider.credentialFromResult(result);
-          // const token = credential.accessToken;
           commit('setUser', result.user)
-          // The signed-in user info.
-          // const user = result.user
         }).catch((error) => {
         // Handle Errors here.
           const errorCode = error.code
           const errorMessage = error.message
           console.error(errorCode, errorMessage)
-          /*        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ... */
         })
+    },
+    tryLogin ({ commit }) {
+      const auth = getAuth()
+      const user = auth.currentUser
+      if (user !== null) {
+        commit('setUser', user)
+      }
+      console.dir(auth.currentUser)
+    },
+    signOut ({ commit }) {
+      const auth = getAuth()
+      signOut(auth).then(() => {
+        commit('setUser')
+      }).catch((error) => {
+        console.error(error)
+      })
     }
   },
   mutations: {
-    setUser (state, data) {
+    setUser (state, data = null) {
       state.user = data
     }
   },
@@ -46,6 +52,6 @@ export default {
     user: null
   },
   getters: {
-    getUser: (state) => state.user
+    getUser: state => state.user
   }
 }
