@@ -25,7 +25,7 @@
             aria-controls="overlay_panel"
             aria:haspopup="true"
         />
-        <span>{{ list.settings.title }}</span>
+          <span @contextmenu.prevent="[currentList = list, $refs.op.toggle($event)]">{{ list.settings.title }}</span>
       </template>
         <ShopToDoTable
             class="-m-3"
@@ -54,7 +54,8 @@ export default {
   name: 'ShopToDoListComponent',
   data: () => ({
     activeTab: 0,
-    currentList: null
+    currentList: null,
+    touching: false
   }),
   computed: {
     ...mapGetters({
@@ -62,6 +63,10 @@ export default {
     })
   },
   methods: {
+    addNewList (event) {
+      if (!this.touching) return
+      this.$refs.op.toggle(event)
+    },
     addNewRow (list) {
       list.items ? list.items.push({ title: 'Введите наименование', isDone: false }) : list.items = [{ title: 'Введите наименование', isDone: false }]
     },
@@ -86,6 +91,9 @@ export default {
         this.$store.dispatch('updateShopToDoLists')
       },
       deep: true
+    },
+    touching: function () {
+      setTimeout(() => this.addNewList, 1000)
     }
   },
   mounted () {
