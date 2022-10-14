@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MenuBarView v-if="false" />
+    <MenuBarView />
     <router-view />
     <ConfirmDialog />
   </div>

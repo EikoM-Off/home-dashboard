@@ -17,6 +17,7 @@ import 'primevue/resources/themes/saga-blue/theme.css'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Card from 'primevue/card'
+import './registerServiceWorker'
 
 const app = createApp(App)
 app.use(router)

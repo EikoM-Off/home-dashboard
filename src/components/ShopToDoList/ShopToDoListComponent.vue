@@ -12,7 +12,7 @@
     </div>
   </template>
   <template #content>
-  <TabView :scrollable="true" :activeIndex.sync="activeTab">
+  <TabView :scrollable="true" v-model:activeIndex="activeTab">
     <TabPanel
     v-for="(list, index) in shopToDoLists"
     :key="list.settings.title + index"
