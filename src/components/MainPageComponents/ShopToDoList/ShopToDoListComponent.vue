@@ -8,6 +8,7 @@
           class="p-button-sm p-button-secondary p-button-rounded align-self-center"
           v-tooltip.left="'Создать новый список'"
           @click="$store.commit('addList', 'Новый список')"
+          @contextmenu.prevent="$event.target.hover()"
       />
     </div>
   </template>
@@ -46,9 +47,9 @@
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import { mapGetters } from 'vuex'
-import ShopToDoTable from '@/components/ShopToDoList/ShopToDoTable'
+import ShopToDoTable from '@/components/MainPageComponents/ShopToDoList/ShopToDoTable'
 import OverlayPanel from 'primevue/overlaypanel'
-import ListSettings from '@/components/ShopToDoList/ListSettings'
+import ListSettings from '@/components/MainPageComponents/ShopToDoList/ListSettings'
 
 export default {
   name: 'ShopToDoListComponent',

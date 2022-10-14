@@ -1,9 +1,9 @@
 <template>
 <div>
-  <DataTable
+    <DataTable
       :value="list"
       responsiveLayout="scroll"
-      scrollHeight="20rem"
+      scrollHeight="310px"
       :scrollable="true"
       stripedRows
       showGridlines
@@ -36,6 +36,7 @@
         style="bottom: 1.5rem"
         v-tooltip.left="'Добавить элемент'"
         @click="$emit('addNewRow')"
+        @contextmenu.prevent="$event.target.hover()"
     />
   </div>
 </div>

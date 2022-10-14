@@ -17,6 +17,7 @@ import 'primevue/resources/themes/saga-blue/theme.css'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Card from 'primevue/card'
+import Skeleton from 'primevue/skeleton'
 import './registerServiceWorker'
 
 const app = createApp(App)
@@ -30,5 +31,6 @@ app.directive('tooltip', Tooltip)
 app.component('Button', Button)
 app.component('InputText', InputText)
 app.component('Card', Card)
+app.component('Skeleton', Skeleton)
 
 app.mount('#app')
