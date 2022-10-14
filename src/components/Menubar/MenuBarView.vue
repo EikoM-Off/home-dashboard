@@ -1,15 +1,25 @@
 <template>
  <div>
+   <Toolbar>
+     <template #start>
+       <Button icon="pi pi-bars" @click="isVisibleSidebar = !isVisibleSidebar" class="p-button-text p-button-rounded"/>
+     </template>
+
+     <template #end>
+      <AvatarComponent />
+     </template>
+   </Toolbar>
+
    <Sidebar v-model:visible="isVisibleSidebar">
      Content
    </Sidebar>
-
-   <Button icon="pi pi-arrow-right" @click="isVisibleSidebar = !isVisibleSidebar" />
  </div>
 </template>
 
 <script>
 import Sidebar from 'primevue/sidebar'
+import Toolbar from 'primevue/toolbar'
+import AvatarComponent from '@/components/Menubar/AvatarComponent'
 
 export default {
   name: 'MenuBarView',
@@ -17,7 +27,9 @@ export default {
     isVisibleSidebar: false
   }),
   components: {
-    Sidebar
+    AvatarComponent,
+    Sidebar,
+    Toolbar
   }
 }
 </script>

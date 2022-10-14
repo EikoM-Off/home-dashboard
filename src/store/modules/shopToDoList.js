@@ -4,7 +4,7 @@ export default {
   actions: {
     updateShopToDoLists ({ state }) {
       const db = getDatabase()
-      set(ref(db, 'shopToDoLists'), state.shopToDoLists)
+      set(ref(db, 'shopToDoLists'), state.shopToDoLists).then(r => {})
     },
     getShopToDoLists ({ commit }) {
       const db = getDatabase()
