@@ -6,7 +6,7 @@ module.exports = defineConfig({
     themeColor: '#DAA2FF',
     msTileColor: '#3D3D3D',
     manifestOptions: {
-      short_name: 'h-dash',
+      short_name: 'FamilyApp',
       start_url: '/'
     }
   }

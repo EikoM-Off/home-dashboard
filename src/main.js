@@ -8,6 +8,7 @@ import Tooltip from 'primevue/tooltip'
 import 'primeflex/primeflex.min.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
+import 'animate.css'
 import '@/assets/css/helper.css'
 
 import '@/config/firebase.config'
@@ -18,6 +19,9 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Card from 'primevue/card'
 import Skeleton from 'primevue/skeleton'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import Checkbox from 'primevue/checkbox'
 import './registerServiceWorker'
 
 const app = createApp(App)
@@ -32,5 +36,8 @@ app.component('Button', Button)
 app.component('InputText', InputText)
 app.component('Card', Card)
 app.component('Skeleton', Skeleton)
+app.component('DataTable', DataTable)
+app.component('Column', Column)
+app.component('Checkbox', Checkbox)
 
 app.mount('#app')

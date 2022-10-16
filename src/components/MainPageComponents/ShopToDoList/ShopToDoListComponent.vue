@@ -5,7 +5,7 @@
       Списки покупок/заданий
       <Button
           icon="pi pi-plus"
-          class="p-button-sm p-button-secondary p-button-rounded align-self-center"
+          :class="['p-button-sm p-button-secondary p-button-rounded align-self-center', {'animate__animated animate__rubberBand animate__delay-1s' : !shopToDoLists}]"
           v-tooltip.left="'Создать новый список'"
           @click="$store.commit('addList', 'Новый список')"
           @contextmenu.prevent="$event.target.hover()"
@@ -13,7 +13,7 @@
     </div>
   </template>
   <template #content>
-  <TabView :scrollable="true" v-model:activeIndex="activeTab">
+  <TabView v-if="shopToDoLists" :scrollable="true" v-model:activeIndex="activeTab">
     <TabPanel
     v-for="(list, index) in shopToDoLists"
     :key="list.settings.title + index"
@@ -26,7 +26,7 @@
             aria-controls="overlay_panel"
             aria:haspopup="true"
         />
-          <span @contextmenu.prevent="[currentList = list, $refs.op.toggle($event)]">{{ list.settings.title }}</span>
+          <span @contextmenu.prevent="[activeTab = index, currentList = list, $refs.op.toggle($event)]">{{ list.settings.title }}</span>
       </template>
         <ShopToDoTable
             class="-m-3"
@@ -36,8 +36,12 @@
         />
     </TabPanel>
   </TabView>
+
+    <div v-if="!shopToDoLists" class="w-12 flex justify-content-center">
+      Пока нет списков (｡•́︿•̀｡)
+    </div>
   <OverlayPanel ref="op" appendTo="body" :showCloseIcon="true" id="overlay_panel">
-    <ListSettings v-model:settings="currentList.settings" @removeList="removeList"/>
+    <ListSettings v-model:settings="currentList.settings" @removeList="removeList(currentList.settings.title)"/>
   </OverlayPanel>
   </template>
 </Card>
@@ -71,10 +75,10 @@ export default {
     addNewRow (list) {
       list.items ? list.items.push({ title: 'Введите наименование', isDone: false }) : list.items = [{ title: 'Введите наименование', isDone: false }]
     },
-    removeList () {
+    removeList (title) {
       this.$confirm.require({
-        message: 'Вы действительно хотите удалить список?',
-        header: 'Подтвердите',
+        message: `Вы действительно хотите удалить список "${title}"?`,
+        header: `Удалить "${title}"?`,
         icon: 'pi pi-exclamation-triangle',
         acceptLabel: 'Да',
         acceptClass: 'p-button-danger',
