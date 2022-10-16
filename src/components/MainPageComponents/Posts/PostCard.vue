@@ -11,7 +11,7 @@
       </div>
     </template>
     <template #footer>
-      <div class="flex flex-row justify-content-end">
+      <div class="flex flex-row justify-content-end gap-2">
         <span>{{ post.author }}</span>
         <span>{{ post.date }}</span>
       </div>
