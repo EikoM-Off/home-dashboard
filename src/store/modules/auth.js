@@ -1,4 +1,5 @@
-import { getAuth, signInWithEmailAndPassword, getRedirectResult, signOut } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, getRedirectResult, signOut, onAuthStateChanged } from 'firebase/auth'
+import router from '@/router'
 
 export default {
   actions: {
@@ -28,11 +29,13 @@ export default {
     },
     tryLogin ({ commit }) {
       const auth = getAuth()
-      const user = auth.currentUser
-      if (user !== null) {
-        commit('setUser', user)
-      }
-      console.dir(auth.currentUser)
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          commit('setUser', user)
+        } else {
+          router.push('/auth')
+        }
+      })
     },
     signOut ({ commit }) {
       const auth = getAuth()

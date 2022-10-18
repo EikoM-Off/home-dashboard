@@ -1,9 +1,9 @@
 <template>
   <div class="m-0 grid lg:pl-8 lg:pr-8">
-    <div class="col-12 md:col-4 lg:col-4">
+    <div class="col-12 md:col-5 lg:col-4">
       <ShopToDoListComponent />
     </div>
-    <div class="col-12 md:col-8 lg:col-8">
+    <div class="col-12 md:col-7 lg:col-8">
       <PostsViewComponent />
     </div>
   </div>

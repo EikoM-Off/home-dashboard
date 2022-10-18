@@ -24,6 +24,9 @@ export default {
     removeList (state, index) {
       state.shopToDoLists.splice(index, 1)
     },
+    removeDone (state, index) {
+      state.shopToDoLists[index].items = state.shopToDoLists[index].items.filter(el => !el.isDone)
+    },
     setShopToDoLists (state, data = []) {
       state.shopToDoLists = data
     }

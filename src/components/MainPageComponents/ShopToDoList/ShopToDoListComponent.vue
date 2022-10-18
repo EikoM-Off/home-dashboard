@@ -1,7 +1,15 @@
 <template>
 <Card class="shadow-5">
+  <template #header>
+<!--    <img
+        class="h-2rem"
+        style="object-fit: cover;"
+        src="https://media.istockphoto.com/photos/eco-friendly-paper-shop-bag-with-raw-organic-green-vegetables-on-picture-id1352226526"
+    />-->
+  </template>
   <template #title>
-    <div class="flex flex-row justify-content-between">
+    <div class="flex flex-row justify-content-between align-items-center">
+      <i class="pi pi-shopping-cart text-xl" />
       Списки покупок/заданий
       <Button
           icon="pi pi-plus"
@@ -41,7 +49,11 @@
       Пока нет списков (｡•́︿•̀｡)
     </div>
   <OverlayPanel ref="op" appendTo="body" :showCloseIcon="true" id="overlay_panel">
-    <ListSettings v-model:settings="currentList.settings" @removeList="removeList(currentList.settings.title)"/>
+    <ListSettings
+        v-model:settings="currentList.settings"
+        @removeList="removeList(currentList.settings.title)"
+        @removeDone="removeDone(currentList.settings.title)"
+    />
   </OverlayPanel>
   </template>
 </Card>
@@ -74,6 +86,20 @@ export default {
     },
     addNewRow (list) {
       list.items ? list.items.push({ title: 'Введите наименование', isDone: false }) : list.items = [{ title: 'Введите наименование', isDone: false }]
+    },
+    removeDone (title) {
+      this.$confirm.require({
+        message: `Вы действительно хотите удалить выполненные в списке "${title}"?`,
+        header: `Удалить выполненные?`,
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Да',
+        acceptClass: 'p-button-secondary',
+        rejectLabel: 'Нет',
+        accept: () => {
+          this.$store.commit('removeDone', this.activeTab)
+          this.$refs.op.hide()
+        }
+      })
     },
     removeList (title) {
       this.$confirm.require({

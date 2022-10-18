@@ -1,5 +1,5 @@
 <template>
-  <Avatar label="P" size="large" shape="circle"/>
+  <Avatar label="P" size="large" shape="circle" />
 </template>
 
 <script>
