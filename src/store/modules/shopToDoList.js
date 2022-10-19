@@ -1,8 +1,9 @@
 import { getDatabase, onValue, ref, set } from 'firebase/database'
+import hash from 'object-hash'
 
 export default {
   actions: {
-    updateShopToDoLists ({ state }) {
+    updateShopToDoLists ({ state, commit }) {
       const db = getDatabase()
       set(ref(db, 'shopToDoLists'), state.shopToDoLists).then(r => {})
     },
@@ -12,6 +13,7 @@ export default {
       onValue(starCountRef, (snapshot) => {
         const data = snapshot.val()
         commit('setShopToDoLists', data)
+        // commit('generateHashForLists')
       })
     }
   },
@@ -29,6 +31,12 @@ export default {
     },
     setShopToDoLists (state, data = []) {
       state.shopToDoLists = data
+    },
+    generateHashForLists (state) {
+      state.hashList = []
+      state.shopToDoLists.forEach(el => {
+        state.hashList.push(hash(el))
+      })
     }
   },
   state: {
@@ -71,9 +79,14 @@ export default {
           }
         ]
       } */
-    ]
+    ],
+    hashList: []
   },
   getters: {
-    getShopToDoLists: state => state.shopToDoLists
+    getShopToDoLists: state => state.shopToDoLists,
+    getHashList: state => (index = undefined) => {
+      if (index === undefined) return state.hashList
+      return state.hashList[index]
+    }
   }
 }

@@ -34,7 +34,9 @@
             aria-controls="overlay_panel"
             aria:haspopup="true"
         />
-          <span @contextmenu.prevent="[activeTab = index, currentList = list, $refs.op.toggle($event)]">{{ list.settings.title }}</span>
+          <span @contextmenu.prevent="[activeTab = index, currentList = list, $refs.op.toggle($event)]">
+            {{ list.settings.title }}
+          </span>
       </template>
         <ShopToDoTable
             class="-m-3"
@@ -66,6 +68,7 @@ import { mapGetters } from 'vuex'
 import ShopToDoTable from '@/components/MainPageComponents/ShopToDoList/ShopToDoTable'
 import OverlayPanel from 'primevue/overlaypanel'
 import ListSettings from '@/components/MainPageComponents/ShopToDoList/ListSettings'
+import hash from 'object-hash'
 
 export default {
   name: 'ShopToDoListComponent',
@@ -74,12 +77,8 @@ export default {
     currentList: null,
     touching: false
   }),
-  computed: {
-    ...mapGetters({
-      shopToDoLists: 'getShopToDoLists'
-    })
-  },
   methods: {
+    hash,
     addNewList (event) {
       if (!this.touching) return
       this.$refs.op.toggle(event)
@@ -116,6 +115,12 @@ export default {
       })
     }
   },
+  computed: {
+    ...mapGetters({
+      shopToDoLists: 'getShopToDoLists',
+      hashList: 'getHashList'
+    })
+  },
   watch: {
     shopToDoLists: {
       handler (newValue, oldValue) {
@@ -141,5 +146,8 @@ export default {
 </script>
 
 <style scoped>
-
+.badge-custom :global(.p-badge) {
+  height: 5px;
+  min-width: 5px;
+}
 </style>
