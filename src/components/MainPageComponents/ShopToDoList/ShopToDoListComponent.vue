@@ -15,7 +15,7 @@
           icon="pi pi-plus"
           :class="['p-button-sm p-button-secondary p-button-rounded align-self-center', {'animate__animated animate__rubberBand animate__delay-1s' : !shopToDoLists}]"
           v-tooltip.left="'Создать новый список'"
-          @click="$store.commit('addList', 'Новый список')"
+          @click="$store.dispatch('createFromIngredientsOrNewList')"
           @contextmenu.prevent="$event.target.hover()"
       />
     </div>
@@ -23,26 +23,25 @@
   <template #content>
   <TabView v-if="shopToDoLists" :scrollable="true" v-model:activeIndex="activeTab">
     <TabPanel
-    v-for="(list, index) in shopToDoLists"
-    :key="list.settings.title + index"
+    v-for="(list, id) in shopToDoLists"
+    :key="list.settings.title + id"
     >
       <template #header>
         <Button
             class="p-button-sm p-button-text p-button-rounded p-button-secondary mr-2"
             icon="pi pi-pencil"
-            @click="[currentList = list, $refs.op.toggle($event)]"
+            @click="[currentList = list, currentListId = id, $refs.op.toggle($event)]"
             aria-controls="overlay_panel"
             aria:haspopup="true"
         />
-          <span @contextmenu.prevent="[activeTab = index, currentList = list, $refs.op.toggle($event)]">
+          <span @contextmenu.prevent="[currentList = list, currentListId = id, $refs.op.toggle($event)]">
             {{ list.settings.title }}
           </span>
       </template>
         <ShopToDoTable
             class="-m-3"
-            v-model:list="list.items"
-            @addNewRow="addNewRow(list)"
-            @removeRow="list.items.splice($event, 1)"
+            :list="list.items"
+            :list-id="id"
         />
     </TabPanel>
   </TabView>
@@ -75,6 +74,7 @@ export default {
   data: () => ({
     activeTab: 0,
     currentList: null,
+    currentListId: null,
     touching: false
   }),
   methods: {
@@ -95,7 +95,7 @@ export default {
         acceptClass: 'p-button-secondary',
         rejectLabel: 'Нет',
         accept: () => {
-          this.$store.commit('removeDone', this.activeTab)
+          this.$store.dispatch('removeDone', this.activeTab)
           this.$refs.op.hide()
         }
       })
@@ -109,7 +109,7 @@ export default {
         acceptClass: 'p-button-danger',
         rejectLabel: 'Нет',
         accept: () => {
-          this.$store.commit('removeList', this.activeTab)
+          this.$store.dispatch('removeShopToDoLists', this.currentListId)
           this.$refs.op.hide()
         }
       })
@@ -122,12 +122,12 @@ export default {
     })
   },
   watch: {
-    shopToDoLists: {
+    /*    shopToDoLists: {
       handler (newValue, oldValue) {
         this.$store.dispatch('updateShopToDoLists')
       },
       deep: true
-    },
+    }, */
     touching: function () {
       setTimeout(() => this.addNewList, 1000)
     }

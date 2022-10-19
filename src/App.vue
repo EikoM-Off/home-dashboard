@@ -3,6 +3,8 @@
     <MenuBarView />
     <router-view />
     <ConfirmDialog />
+
+    <Toast position="bottom-right" group="br" />
   </div>
 </template>
 

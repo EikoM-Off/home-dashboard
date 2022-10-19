@@ -1,14 +1,40 @@
-import { getDatabase, onValue, ref, set } from 'firebase/database'
+import { getDatabase, onValue, ref, push, update, remove } from 'firebase/database'
 import hash from 'object-hash'
+import app from '@/main'
+
+const db = getDatabase()
 
 export default {
   actions: {
-    updateShopToDoLists ({ state, commit }) {
-      const db = getDatabase()
+    createFromIngredientsOrNewList (state, data = { title: 'Новый список', ingredients: ['Введите наименование'] }) {
+      const list = {
+        settings: {
+          title: data.title
+        },
+        items: data.ingredients.map(el => {
+          return { title: el, isDone: false }
+        })
+      }
+      push(ref(db, 'shopToDoLists'), list).then(() => {
+        app.config.globalProperties.$toast.add({ severity: 'success', summary: 'Ура!', detail: `Успешно создан список "${data.title}"`, group: 'br', life: 3000 })
+      })
+    },
+    /* updateShopToDoLists ({ state }) {
       set(ref(db, 'shopToDoLists'), state.shopToDoLists).then(r => {})
+    }, */
+    updateShopToDoLists ({ state }, data) {
+      update(ref(db, 'shopToDoLists/' + data.listId), data.items).then(r => {})
+    },
+    addShopItem ({ state }, listId) {
+      push(ref(db, `shopToDoLists/${listId}/items`), { title: 'Введите наименование', isDone: false })
+    },
+    removeShopItem ({ state }, data) {
+      remove(ref(db, `shopToDoLists/${data.listId}/items/${data.itemId}`)).then(r => {})
+    },
+    removeShopToDoLists ({ state }, listId) {
+      remove(ref(db, 'shopToDoLists/' + listId)).then(r => {})
     },
     getShopToDoLists ({ commit }) {
-      const db = getDatabase()
       const starCountRef = ref(db, 'shopToDoLists')
       onValue(starCountRef, (snapshot) => {
         const data = snapshot.val()

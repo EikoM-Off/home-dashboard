@@ -11,7 +11,7 @@
    </Toolbar>
 
    <Sidebar v-model:visible="isVisibleSidebar">
-     Content
+     <SidebarContent />
    </Sidebar>
  </div>
 </template>
@@ -20,6 +20,7 @@
 import Sidebar from 'primevue/sidebar'
 import Toolbar from 'primevue/toolbar'
 import AvatarComponent from '@/components/Menubar/AvatarComponent'
+import SidebarContent from '@/components/Menubar/Sidebar/SidebarContent'
 
 export default {
   name: 'MenuBarView',
@@ -27,6 +28,7 @@ export default {
     isVisibleSidebar: false
   }),
   components: {
+    SidebarContent,
     AvatarComponent,
     Sidebar,
     Toolbar

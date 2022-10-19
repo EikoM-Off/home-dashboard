@@ -11,6 +11,11 @@ const routes = [
     path: '/auth',
     name: 'Authorization',
     component: () => import('@/views/AuthPage')
+  },
+  {
+    path: '/recipes',
+    name: 'Recipes',
+    component: () => import('@/views/RecipesPage')
   }
 ]
 

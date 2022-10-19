@@ -4,6 +4,7 @@ import { createStore } from 'vuex'
 import auth from '@/store/modules/auth'
 import shopToDoList from '@/store/modules/shopToDoList'
 import posts from '@/store/modules/posts'
+import recipes from '@/store/modules/recipes'
 
 export const store = createStore({
   state: {},
@@ -12,6 +13,7 @@ export const store = createStore({
   modules: {
     auth,
     shopToDoList,
-    posts
+    posts,
+    recipes
   }
 })

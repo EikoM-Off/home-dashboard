@@ -11,35 +11,6 @@
       <Button icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text p-button-sm" @click="removeRow(index)"/>
     </li>
   </ul>
-<!--    <DataTable
-      :value="list"
-      responsiveLayout="scroll"
-      scrollHeight="310px"
-      :scrollable="true"
-      stripedRows
-      showGridlines
-      editMode="cell"
-      @cell-edit-complete="onCellEditComplete"
-  >
-    <Column bodyClass="w-1rem justify-content-center flex-grow-0 p-4" headerClass="w-1rem flex-grow-0 p-4">
-      <template #body="slotProps">
-        <Checkbox v-model="slotProps.data.isDone" :binary="true" @change="sorting"/>
-      </template>
-    </Column>
-    <Column field="title" header="Наименование" bodyClass="justify-content-center" headerClass="justify-content-center">
-      <template #body="slotProps">
-        <span :class="{'text-decoration-line-through' : slotProps.data.isDone}">{{ slotProps.data.title }}</span>
-      </template>
-      <template #editor="slotProps">
-        <InputText v-model="slotProps.data.title" @focus="$event.target.select()" maxlength="100"/>
-      </template>
-    </Column>
-    <Column bodyClass="w-1rem justify-content-center flex-grow-0 p-4" headerClass="w-1rem flex-grow-0 p-4">
-      <template #body="slotProps">
-        <Button icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text p-button-sm" @click="removeRow(slotProps.index)"/>
-      </template>
-    </Column>
-  </DataTable>-->
 
   <div class="flex justify-content-center" style="height: 0">
     <Button
@@ -47,7 +18,7 @@
         class="p-button-text p-button-rounded p-button-raised bg-white h-3rem w-3rem"
         style="bottom: 1.5rem"
         v-tooltip.left="'Добавить элемент'"
-        @click="[$emit('addNewRow'), sorting()]"
+        @click="[$store.dispatch('addShopItem', listId)]"
         @contextmenu.prevent="$event.target.hover()"
     />
   </div>
@@ -63,9 +34,10 @@ export default {
   }),
   props: {
     list: {
-      type: Array,
+      type: [Array, Object],
       default: () => []
-    }
+    },
+    listId: [String, Number]
   },
   methods: {
     onCellEditComplete (event) {
@@ -74,10 +46,11 @@ export default {
       data[field] = newValue
     },
     sorting () {
-      this.$emit('update:list', [
+      /* const sortedList = [
         ...this.list.filter(elem => elem.isDone === false),
         ...this.list.filter(elem => elem.isDone === true)
-      ])
+      ]
+      this.$store.dispatch('updateShopToDoLists', { listId: this.listId, items: sortedList }) */
     },
     removeRow (index) {
       this.$confirm.require({
@@ -88,7 +61,7 @@ export default {
         acceptClass: 'p-button-danger',
         rejectLabel: 'Нет',
         accept: () => {
-          this.$emit('removeRow', index)
+          this.$store.dispatch('removeShopItem', { listId: this.listId, itemId: index })
         }
       })
     }
