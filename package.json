@@ -6,12 +6,15 @@
     "serve": "vue-cli-service serve",
     "start": "npx http-server dist",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
+    "animate.css": "^4.1.1",
     "core-js": "^3.8.3",
     "eslint-config-vue-standard": "0.0.6",
     "firebase": "^9.12.0",
+    "object-hash": "^3.0.0",
     "primeflex": "^3.2.1",
     "primeicons": "^5.0.0",
     "primevue": "^3.17.0",
