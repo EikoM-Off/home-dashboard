@@ -1,4 +1,4 @@
-import { getDatabase, onValue, ref, push, update, remove } from 'firebase/database'
+import { getDatabase, set, onValue, ref, push, update, remove } from 'firebase/database'
 import hash from 'object-hash'
 import app from '@/main'
 
@@ -22,14 +22,20 @@ export default {
     /* updateShopToDoLists ({ state }) {
       set(ref(db, 'shopToDoLists'), state.shopToDoLists).then(r => {})
     }, */
-    updateShopToDoLists ({ state }, data) {
-      update(ref(db, 'shopToDoLists/' + data.listId), data.items).then(r => {})
+    updateListSettings ({ state }, data) {
+      update(ref(db, `shopToDoLists/${data.listId}/settings`), data.listSettings).then(r => {})
+    },
+    updateShopItems ({ state }, data) {
+      update(ref(db, `shopToDoLists/${data.listId}/items`), { ...data.listData }).then(r => {})
     },
     addShopItem ({ state }, listId) {
       push(ref(db, `shopToDoLists/${listId}/items`), { title: 'Введите наименование', isDone: false })
     },
     removeShopItem ({ state }, data) {
       remove(ref(db, `shopToDoLists/${data.listId}/items/${data.itemId}`)).then(r => {})
+    },
+    removeDoneItems ({ state }, data) {
+      set(ref(db, `shopToDoLists/${data.listId}/items`), data.listData).then(r => {})
     },
     removeShopToDoLists ({ state }, listId) {
       remove(ref(db, 'shopToDoLists/' + listId)).then(r => {})
@@ -66,50 +72,12 @@ export default {
     }
   },
   state: {
-    shopToDoLists: [
-      /* {
-        settings: {
-          title: 'First List'
-        },
-        items: [
-          {
-            title: 'milk',
-            isDone: false
-          },
-          {
-            title: 'bread',
-            isDone: true
-          },
-          {
-            title: 'tomatoes',
-            isDone: false
-          }
-        ]
-      },
-      {
-        settings: {
-          title: 'Second List'
-        },
-        items: [
-          {
-            title: 'milk',
-            isDone: true
-          },
-          {
-            title: 'bread',
-            isDone: true
-          },
-          {
-            title: 'tomatoes',
-            isDone: false
-          }
-        ]
-      } */
-    ],
+    shopToDoLists: [],
     hashList: []
   },
   getters: {
     getShopToDoLists: state => state.shopToDoLists,
+    getShopToDoListsById: (state) => (id) => { return state.shopToDoLists[id] },
     getHashList: state => (index = undefined) => {
       if (index === undefined) return state.hashList
       return state.hashList[index]

@@ -40,7 +40,7 @@
       </template>
         <ShopToDoTable
             class="-m-3"
-            :list="list.items"
+            v-model:list="list.items"
             :list-id="id"
         />
     </TabPanel>
@@ -52,8 +52,8 @@
   <OverlayPanel ref="op" appendTo="body" :showCloseIcon="true" id="overlay_panel">
     <ListSettings
         v-model:settings="currentList.settings"
-        @removeList="removeList(currentList.settings.title)"
-        @removeDone="removeDone(currentList.settings.title)"
+        :list-id="currentListId"
+        @hide="$refs.op.hide()"
     />
   </OverlayPanel>
   </template>
@@ -85,34 +85,6 @@ export default {
     },
     addNewRow (list) {
       list.items ? list.items.push({ title: 'Введите наименование', isDone: false }) : list.items = [{ title: 'Введите наименование', isDone: false }]
-    },
-    removeDone (title) {
-      this.$confirm.require({
-        message: `Вы действительно хотите удалить выполненные в списке "${title}"?`,
-        header: `Удалить выполненные?`,
-        icon: 'pi pi-exclamation-triangle',
-        acceptLabel: 'Да',
-        acceptClass: 'p-button-secondary',
-        rejectLabel: 'Нет',
-        accept: () => {
-          this.$store.dispatch('removeDone', this.activeTab)
-          this.$refs.op.hide()
-        }
-      })
-    },
-    removeList (title) {
-      this.$confirm.require({
-        message: `Вы действительно хотите удалить список "${title}"?`,
-        header: `Удалить "${title}"?`,
-        icon: 'pi pi-exclamation-triangle',
-        acceptLabel: 'Да',
-        acceptClass: 'p-button-danger',
-        rejectLabel: 'Нет',
-        accept: () => {
-          this.$store.dispatch('removeShopToDoLists', this.currentListId)
-          this.$refs.op.hide()
-        }
-      })
     }
   },
   computed: {

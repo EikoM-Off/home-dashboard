@@ -6,8 +6,8 @@
         :key="'row' + item.title + item.isDone + index"
         class="flex flex-row w-12 gap-2 justify-content-between align-items-center mb-2 border-bottom-1 border-300"
     >
-      <Checkbox v-model="item.isDone" :binary="true" @change="sorting"/>
-      <InputText :class="['w-12 border-0 hover:border-400', {'text-decoration-line-through' : item.isDone}]" :value="item.title" @change="item.title = $event.target.value" @focus="$event.target.select()" maxlength="100"/>
+      <Checkbox v-model="item.isDone" :binary="true" @change="updateList"/>
+      <InputText :class="['w-12 border-0 hover:border-400', {'text-decoration-line-through' : item.isDone}]" :value="item.title" @change="[item.title = $event.target.value, updateList()]" @focus="$event.target.select()" maxlength="100"/>
       <Button icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-text p-button-sm" @click="removeRow(index)"/>
     </li>
   </ul>
@@ -51,6 +51,9 @@ export default {
         ...this.list.filter(elem => elem.isDone === true)
       ]
       this.$store.dispatch('updateShopToDoLists', { listId: this.listId, items: sortedList }) */
+    },
+    updateList () {
+      this.$store.dispatch('updateShopItems', { listId: this.listId, listData: this.list })
     },
     removeRow (index) {
       this.$confirm.require({
