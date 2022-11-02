@@ -14,16 +14,14 @@ import ConfirmDialog from 'primevue/confirmdialog'
 
 export default {
   name: 'App',
-  mounted () {
-    this.$store.dispatch('tryLogin')
-  },
   components: {
     MenuBarView,
     ConfirmDialog
+  },
+  mounted() {
+    this.$store.dispatch('tryLogin')
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -8,7 +8,8 @@ import { getDatabase } from 'firebase/database'
 const firebaseConfig = {
   apiKey: 'AIzaSyCFkYljaz7oI6z0B04qWbRdFjn76p7FGAc',
   authDomain: 'familyapp-29035.firebaseapp.com',
-  databaseURL: 'https://familyapp-29035-default-rtdb.europe-west1.firebasedatabase.app',
+  databaseURL:
+    'https://familyapp-29035-default-rtdb.europe-west1.firebasedatabase.app',
   projectId: 'familyapp-29035',
   storageBucket: 'familyapp-29035.appspot.com',
   messagingSenderId: '812707752336',

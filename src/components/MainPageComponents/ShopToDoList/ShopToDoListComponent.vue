@@ -1,63 +1,88 @@
 <template>
-<Card class="shadow-5">
-  <template #header>
-<!--    <img
+  <Card class="shadow-5">
+    <template #header>
+      <!--    <img
         class="h-2rem"
         style="object-fit: cover;"
         src="https://media.istockphoto.com/photos/eco-friendly-paper-shop-bag-with-raw-organic-green-vegetables-on-picture-id1352226526"
     />-->
-  </template>
-  <template #title>
-    <div class="flex flex-row justify-content-between align-items-center">
-      <i class="pi pi-shopping-cart text-xl" />
-      Списки покупок/заданий
-      <Button
-          icon="pi pi-plus"
-          :class="['p-button-sm p-button-secondary p-button-rounded align-self-center', {'animate__animated animate__rubberBand animate__delay-1s' : !shopToDoLists}]"
+    </template>
+    <template #title>
+      <div class="flex flex-row justify-content-between align-items-center">
+        <i class="pi pi-shopping-cart text-xl" />
+        Списки покупок/заданий
+        <Button
           v-tooltip.left="'Создать новый список'"
+          icon="pi pi-plus"
+          :class="[
+            'p-button-sm p-button-secondary p-button-rounded align-self-center',
+            {
+              'animate__animated animate__rubberBand animate__delay-1s':
+                !shopToDoLists
+            }
+          ]"
           @click="$store.dispatch('createFromIngredientsOrNewList')"
           @contextmenu.prevent="$event.target.hover()"
-      />
-    </div>
-  </template>
-  <template #content>
-  <TabView v-if="shopToDoLists" :scrollable="true" v-model:activeIndex="activeTab">
-    <TabPanel
-    v-for="(list, id) in shopToDoLists"
-    :key="list.settings.title + id"
-    >
-      <template #header>
-        <Button
-            class="p-button-sm p-button-text p-button-rounded p-button-secondary mr-2"
-            icon="pi pi-pencil"
-            @click="[currentList = list, currentListId = id, $refs.op.toggle($event)]"
-            aria-controls="overlay_panel"
-            aria:haspopup="true"
         />
-          <span @contextmenu.prevent="[currentList = list, currentListId = id, $refs.op.toggle($event)]">
-            {{ list.settings.title }}
-          </span>
-      </template>
-        <ShopToDoTable
-            class="-m-3"
-            v-model:list="list.items"
-            :list-id="id"
-        />
-    </TabPanel>
-  </TabView>
+      </div>
+    </template>
+    <template #content>
+      <TabView
+        v-if="shopToDoLists"
+        v-model:activeIndex="activeTab"
+        :scrollable="true"
+      >
+        <TabPanel
+          v-for="(list, id) in shopToDoLists"
+          :key="list.settings.title + id"
+        >
+          <template #header>
+            <Button
+              class="p-button-sm p-button-text p-button-rounded p-button-secondary mr-2"
+              icon="pi pi-pencil"
+              aria-controls="overlay_panel"
+              aria:haspopup="true"
+              @click="
+                ;[
+                  (currentList = list),
+                  (currentListId = id),
+                  $refs.op.toggle($event)
+                ]
+              "
+            />
+            <span
+              @contextmenu.prevent="
+                ;[
+                  (currentList = list),
+                  (currentListId = id),
+                  $refs.op.toggle($event)
+                ]
+              "
+            >
+              {{ list.settings.title }}
+            </span>
+          </template>
+          <ShopToDoTable v-model:list="list.items" class="-m-3" :list-id="id" />
+        </TabPanel>
+      </TabView>
 
-    <div v-if="!shopToDoLists" class="w-12 flex justify-content-center">
-      Пока нет списков (｡•́︿•̀｡)
-    </div>
-  <OverlayPanel ref="op" appendTo="body" :showCloseIcon="true" id="overlay_panel">
-    <ListSettings
-        v-model:settings="currentList.settings"
-        :list-id="currentListId"
-        @hide="$refs.op.hide()"
-    />
-  </OverlayPanel>
-  </template>
-</Card>
+      <div v-if="!shopToDoLists" class="w-12 flex justify-content-center">
+        Пока нет списков (｡•́︿•̀｡)
+      </div>
+      <OverlayPanel
+        id="overlay_panel"
+        ref="op"
+        append-to="body"
+        :show-close-icon="true"
+      >
+        <ListSettings
+          v-model:settings="currentList.settings"
+          :list-id="currentListId"
+          @hide="$refs.op.hide()"
+        />
+      </OverlayPanel>
+    </template>
+  </Card>
 </template>
 
 <script>
@@ -71,22 +96,19 @@ import hash from 'object-hash'
 
 export default {
   name: 'ShopToDoListComponent',
+  components: {
+    ListSettings,
+    ShopToDoTable,
+    OverlayPanel,
+    TabView,
+    TabPanel
+  },
   data: () => ({
     activeTab: 0,
     currentList: null,
     currentListId: null,
     touching: false
   }),
-  methods: {
-    hash,
-    addNewList (event) {
-      if (!this.touching) return
-      this.$refs.op.toggle(event)
-    },
-    addNewRow (list) {
-      list.items ? list.items.push({ title: 'Введите наименование', isDone: false }) : list.items = [{ title: 'Введите наименование', isDone: false }]
-    }
-  },
   computed: {
     ...mapGetters({
       shopToDoLists: 'getShopToDoLists',
@@ -104,15 +126,20 @@ export default {
       setTimeout(() => this.addNewList, 1000)
     }
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('getShopToDoLists')
   },
-  components: {
-    ListSettings,
-    ShopToDoTable,
-    OverlayPanel,
-    TabView,
-    TabPanel
+  methods: {
+    hash,
+    addNewList(event) {
+      if (!this.touching) return
+      this.$refs.op.toggle(event)
+    },
+    addNewRow(list) {
+      list.items
+        ? list.items.push({ title: 'Введите наименование', isDone: false })
+        : (list.items = [{ title: 'Введите наименование', isDone: false }])
+    }
   }
 }
 </script>

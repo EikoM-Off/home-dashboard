@@ -1,7 +1,6 @@
 <template>
   <Card class="shadow-1">
-    <template #header>
-    </template>
+    <template #header />
     <template #title>
       {{ post.title }}
     </template>
@@ -28,6 +27,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

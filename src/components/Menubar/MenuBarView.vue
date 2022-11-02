@@ -1,19 +1,23 @@
 <template>
- <div>
-   <Toolbar>
-     <template #start>
-       <Button icon="pi pi-bars" @click="isVisibleSidebar = !isVisibleSidebar" class="p-button-text p-button-rounded"/>
-     </template>
+  <div>
+    <Toolbar>
+      <template #start>
+        <Button
+          icon="pi pi-bars"
+          class="p-button-text p-button-rounded"
+          @click="isVisibleSidebar = !isVisibleSidebar"
+        />
+      </template>
 
-     <template #end>
-      <AvatarComponent />
-     </template>
-   </Toolbar>
+      <template #end>
+        <AvatarComponent />
+      </template>
+    </Toolbar>
 
-   <Sidebar v-model:visible="isVisibleSidebar">
-     <SidebarContent />
-   </Sidebar>
- </div>
+    <Sidebar v-model:visible="isVisibleSidebar">
+      <SidebarContent />
+    </Sidebar>
+  </div>
 </template>
 
 <script>
@@ -24,18 +28,16 @@ import SidebarContent from '@/components/Menubar/Sidebar/SidebarContent'
 
 export default {
   name: 'MenuBarView',
-  data: () => ({
-    isVisibleSidebar: false
-  }),
   components: {
     SidebarContent,
     AvatarComponent,
     Sidebar,
     Toolbar
-  }
+  },
+  data: () => ({
+    isVisibleSidebar: false
+  })
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

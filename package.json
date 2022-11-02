@@ -6,18 +6,20 @@
     "serve": "vue-cli-service serve",
     "start": "npx http-server dist",
     "build": "vue-cli-service build",
+    "flint": "npm run lint && npm run format",
     "lint": "vue-cli-service lint",
+    "format": "prettier .  --write",
     "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
     "animate.css": "^4.1.1",
     "core-js": "^3.8.3",
-    "eslint-config-vue-standard": "0.0.6",
     "firebase": "^9.12.0",
     "object-hash": "^3.0.0",
     "primeflex": "^3.2.1",
     "primeicons": "^5.0.0",
     "primevue": "^3.17.0",
+    "quill": "^1.3.7",
     "register-service-worker": "^1.7.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.13",
@@ -31,22 +33,12 @@
     "@vue/cli-plugin-pwa": "^5.0.8",
     "@vue/cli-service": "~5.0.0",
     "@vue/compiler-sfc": "^3.2.39",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "@babel/eslint-parser"
-    },
-    "rules": {}
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "prettier": "2.7.1"
   },
   "browserslist": [
     "> 1%",

@@ -2,18 +2,31 @@
   <div class="flex flex-column max-w-15rem">
     <div class="p-inputgroup mt-2">
       <span class="p-inputgroup-addon">
-          <i class="pi pi-envelope"></i>
+        <i class="pi pi-envelope" />
       </span>
-      <InputText placeholder="Email" v-model.trim="email"/>
+      <InputText v-model.trim="email" placeholder="Email" />
     </div>
     <div class="p-inputgroup mt-2">
       <span class="p-inputgroup-addon">
-          <i class="pi pi-lock"></i>
+        <i class="pi pi-lock" />
       </span>
-      <Password placeholder="Password" v-model.trim="password" toggleMask :feedback="false"/>
+      <Password
+        v-model.trim="password"
+        placeholder="Password"
+        toggle-mask
+        :feedback="false"
+      />
     </div>
-    <Button label="Войти" class="w-12 mt-2" @click="signIn"/>
-    <Button label="Войти через Google" icon="pi pi-google" class="p-button-text shadow-1 mt-2 text-black-alpha-70" @click="{}"/>
+    <Button label="Войти" class="w-12 mt-2" @click="signIn" />
+    <Button
+      label="Войти через Google"
+      icon="pi pi-google"
+      class="p-button-text shadow-1 mt-2 text-black-alpha-70"
+      @click="
+        {
+        }
+      "
+    />
   </div>
 </template>
 
@@ -25,15 +38,14 @@ import router from '@/router'
 
 export default {
   name: 'AuthForm',
+  components: {
+    Password,
+    InputText
+  },
   data: () => ({
     email: null,
     password: null
   }),
-  methods: {
-    signIn () {
-      this.$store.dispatch('loginWithEmailAndPassword', { email: this.email, password: this.password })
-    }
-  },
   computed: {
     ...mapGetters({
       user: 'getUser'
@@ -44,16 +56,18 @@ export default {
       if (this.user) router.push('/')
     }
   },
-  mounted () {
+  mounted() {
     if (this.user) router.push('/')
   },
-  components: {
-    Password,
-    InputText
+  methods: {
+    signIn() {
+      this.$store.dispatch('loginWithEmailAndPassword', {
+        email: this.email,
+        password: this.password
+      })
+    }
   }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

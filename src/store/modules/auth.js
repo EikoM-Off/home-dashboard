@@ -1,9 +1,15 @@
-import { getAuth, signInWithEmailAndPassword, getRedirectResult, signOut, onAuthStateChanged } from 'firebase/auth'
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  getRedirectResult,
+  signOut,
+  onAuthStateChanged
+} from 'firebase/auth'
 import router from '@/router'
 
 export default {
   actions: {
-    loginWithEmailAndPassword ({ commit }, { email, password }) {
+    loginWithEmailAndPassword({ commit }, { email, password }) {
       const auth = getAuth()
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -15,19 +21,20 @@ export default {
           console.error(errorCode, errorMessage)
         })
     },
-    loginWithGoogle ({ commit }) {
+    loginWithGoogle({ commit }) {
       const auth = getAuth()
       getRedirectResult(auth)
         .then((result) => {
           commit('setUser', result.user)
-        }).catch((error) => {
-        // Handle Errors here.
+        })
+        .catch((error) => {
+          // Handle Errors here.
           const errorCode = error.code
           const errorMessage = error.message
           console.error(errorCode, errorMessage)
         })
     },
-    tryLogin ({ commit }) {
+    tryLogin({ commit }) {
       const auth = getAuth()
       onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -37,17 +44,19 @@ export default {
         }
       })
     },
-    signOut ({ commit }) {
+    signOut({ commit }) {
       const auth = getAuth()
-      signOut(auth).then(() => {
-        commit('setUser')
-      }).catch((error) => {
-        console.error(error)
-      })
+      signOut(auth)
+        .then(() => {
+          commit('setUser')
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   },
   mutations: {
-    setUser (state, data = null) {
+    setUser(state, data = null) {
       state.user = data
     }
   },
@@ -55,6 +64,6 @@ export default {
     user: null
   },
   getters: {
-    getUser: state => state.user
+    getUser: (state) => state.user
   }
 }
