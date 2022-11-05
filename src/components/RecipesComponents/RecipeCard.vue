@@ -3,8 +3,8 @@
     <template #header>
       <div
         v-if="recipe.image"
-        class="h-5rem"
-        :style="`background-image: url(${recipe.image}); background-size: cover;`"
+        class="h-5rem border-round"
+        :style="`background-image: url(${recipe.image}); background-size: cover; background-position: center;`"
       />
       <div v-else class="h-5rem" />
     </template>
@@ -22,12 +22,10 @@
             icon="pi pi-shopping-cart"
             class="p-button-sm p-button-text h-2rem ml-2"
             :model="ingredientsSplitButton"
-            @click="
-              ;[$store.dispatch('createFromIngredientsOrNewList', recipe)]
-            "
+            @click="$store.dispatch('createFromIngredientsOrNewList', recipe)"
           />
         </div>
-        <ul>
+        <ul class="max-h-10rem overflow-y-auto">
           <li
             v-for="(ingredient, index) in recipe.ingredients"
             :key="'ingredient' + index"
@@ -44,7 +42,9 @@
             :key="'cookStep' + index"
           >
             <h3>{{ cookStep.title }}</h3>
-            <span>{{ cookStep.content }}</span>
+            <div>
+              <div v-html="cookStep.content" />
+            </div>
           </li>
         </ol>
       </div>
@@ -69,10 +69,8 @@
 </template>
 
 <script>
-import CardCustom from '@/layout/CardCustom'
 export default {
   name: 'RecipeCard',
-  components: { CardCustom },
   props: {
     recipe: Object,
     id: [Number, String],

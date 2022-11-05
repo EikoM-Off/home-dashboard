@@ -1,11 +1,14 @@
 <template>
   <div>
     <div class="mt-2 grid gap-3">
+      <div v-if="!recipes" class="flex justify-content-center col-12">
+       <span class="p-component text-3xl">Рецептов не найдено, добавим?</span>
+      </div>
       <RecipeCard
         v-for="(recipe, index) in recipes"
         :id="index"
         :key="'recipe' + index"
-        class="shadow-1 col-12 md:col-4 lg:col-3"
+        class="shadow-1 col-12 md:col-6 lg:col-4 border-round-xl"
         :recipe="recipe"
         @open-recipe=";[(currentRecipeId = $event), (isVisibleSidebar = true)]"
       />
@@ -24,6 +27,11 @@
         :full-recipe="true"
         @open-recipe="isVisibleSidebar = true"
       />
+      <RecipeEditorComponent
+        v-if="isEdit || currentRecipeId === null"
+        :id="currentRecipeId"
+        @close-bottom-bar="isVisibleSidebar = false"
+      />
     </Sidebar>
   </div>
 </template>
@@ -32,19 +40,35 @@
 import RecipeCard from '@/components/RecipesComponents/RecipeCard'
 import Sidebar from 'primevue/sidebar'
 import { mapGetters } from 'vuex'
+import RecipeEditorComponent from '@/components/RecipesComponents/RecipeEditor/RecipeEditorComponent'
 
 export default {
   name: 'RecipesList',
-  components: { RecipeCard, Sidebar },
+  components: {
+    RecipeEditorComponent,
+    RecipeCard,
+    Sidebar
+  },
   data: () => ({
     isVisibleSidebar: false,
-    currentRecipeId: null
+    currentRecipeId: null,
+    isEdit: false
   }),
   computed: {
     ...mapGetters({
       recipes: 'getRecipes',
       getRecipeById: 'getRecipeById'
     })
+  },
+  mounted() {
+    this.$store.dispatch('getRecipes')
+  },
+  methods: {
+    addNewRecipe() {
+      this.currentRecipeId = null
+      this.isEdit = false
+      this.isVisibleSidebar = true
+    }
   }
 }
 </script>

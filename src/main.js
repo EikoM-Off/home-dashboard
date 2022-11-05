@@ -1,6 +1,6 @@
 import '@/config/firebase.config'
 
-import { createApp } from 'vue'
+import { createApp, h } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { store } from './store/index'
@@ -29,10 +29,16 @@ import Checkbox from 'primevue/checkbox'
 import Divider from 'primevue/divider'
 import PanelMenu from 'primevue/panelmenu'
 import Toast from 'primevue/toast'
+import CardCustom from '@/layout/CardCustom'
+import Editor from 'primevue/editor'
+import DataView from 'primevue/dataview'
+import Dropdown from 'primevue/dropdown'
 
 import './registerServiceWorker'
 
-const app = createApp(App)
+const app  = createApp({
+  render: ()=>h(App)
+})
 app.use(router)
 app.use(store)
 app.use(PrimeVue)
@@ -53,6 +59,10 @@ app.component('Checkbox', Checkbox)
 app.component('Divider', Divider)
 app.component('PanelMenu', PanelMenu)
 app.component('Toast', Toast)
+app.component('CardCustom', CardCustom)
+app.component('Editor', Editor)
+app.component('DataView', DataView)
+app.component('Dropdown', Dropdown)
 
 app.mount('#app')
 

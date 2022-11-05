@@ -51,6 +51,7 @@
               "
             />
             <span
+                class="trimmed-text-2"
               @contextmenu.prevent="
                 ;[
                   (currentList = list),
