@@ -18,9 +18,10 @@
       v-model:visible="isVisibleSidebar"
       :class="classes['custom-sidebar']"
       position="bottom"
+      @hide="isEdit = false"
     >
       <RecipeCard
-        v-if="currentRecipeId !== null"
+        v-if="!isEdit && currentRecipeId !== null"
         :id="currentRecipeId"
         style="height: 90vh"
         :recipe="getRecipeById(currentRecipeId)"
@@ -30,7 +31,15 @@
       <RecipeEditorComponent
         v-if="isEdit || currentRecipeId === null"
         :id="currentRecipeId"
-        @close-bottom-bar="isVisibleSidebar = false"
+        :recipe-prop="getRecipeById(currentRecipeId)"
+        @close-bottom-bar="[isVisibleSidebar = false, isEdit = false]"
+      />
+      <Button
+          v-if="!isEdit && currentRecipeId !== null"
+          class="p-button-rounded p-button-raised fixed p-button-warning"
+          style="bottom: 2rem; right: 2rem"
+          icon="pi pi-pencil"
+          @click="isEdit = true"
       />
     </Sidebar>
   </div>

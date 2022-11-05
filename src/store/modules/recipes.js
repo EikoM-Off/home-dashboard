@@ -1,4 +1,4 @@
-import {getDatabase, onValue, push, ref} from 'firebase/database'
+import {getDatabase, onValue, push, ref, update} from 'firebase/database'
 
 const db = getDatabase()
 export default {
@@ -7,6 +7,13 @@ export default {
     pushNewRecipe ( { commit }, recipe ) {
       push(ref(db, 'recipes'), recipe).then(() => {
       })
+    },
+    // eslint-disable-next-line no-unused-vars
+    updateRecipe({ state }, data) {
+      update(
+        ref(db, `recipes/${data.id}`),
+        data.recipe
+      ).then(() => {})
     },
     getRecipes ( { commit }) {
       const starCountRef = ref(db, 'recipes')

@@ -104,7 +104,7 @@ export default {
 ol {
   list-style-type: none;
   counter-reset: num;
-  margin: 0 0 0 60px;
+  margin: 0 0 0 30px;
   padding: 15px 0 0 0;
 }
 ol li {

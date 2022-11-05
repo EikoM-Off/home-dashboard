@@ -32,7 +32,7 @@
           </div>
           <IngredientsListEditor
             v-model:ingredients-prop="recipe.ingredients"
-            @add-ingredient="recipe.ingredients.push('Введите наименование')"
+            @add-ingredient="recipe.ingredients ? recipe.ingredients.push('Введите наименование') : recipe.ingredients = ['Введите наименование']"
             @remove-ingredient="recipe.ingredients.splice($event, 1)"
           />
         </div>
@@ -94,11 +94,12 @@ export default {
     recipe: {}
   }),
   mounted() {
-    this.recipe = this.recipeProp
+    this.recipe = JSON.parse(JSON.stringify(this.recipeProp))
   },
   methods: {
     saveOrPushRecipe () {
-      this.$store.dispatch('pushNewRecipe', this.recipe)
+      if(this.id === null) this.$store.dispatch('pushNewRecipe', this.recipe)
+      if(this.id !== null) this.$store.dispatch('updateRecipe', {id: this.id, recipe: this.recipe})
       this.$emit('closeBottomBar')
     }
   }
@@ -109,7 +110,7 @@ export default {
 ol {
   list-style-type: none;
   counter-reset: num;
-  margin: 0 0 0 60px;
+  margin: 0 0 0 30px;
   padding: 15px 0 0 0;
 }
 ol li {
