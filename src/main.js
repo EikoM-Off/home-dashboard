@@ -33,11 +33,12 @@ import CardCustom from '@/layout/CardCustom'
 import Editor from 'primevue/editor'
 import DataView from 'primevue/dataview'
 import Dropdown from 'primevue/dropdown'
+import OverlayPanel from 'primevue/overlaypanel'
 
 import './registerServiceWorker'
 
-const app  = createApp({
-  render: ()=>h(App)
+const app = createApp({
+  render: () => h(App)
 })
 app.use(router)
 app.use(store)
@@ -63,6 +64,7 @@ app.component('CardCustom', CardCustom)
 app.component('Editor', Editor)
 app.component('DataView', DataView)
 app.component('Dropdown', Dropdown)
+app.component('OverlayPanel', OverlayPanel)
 
 app.mount('#app')
 

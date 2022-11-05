@@ -1,7 +1,7 @@
 <template>
   <div class="pr-5 pl-5">
     <RecipesList ref="RecipesList" />
-<!--    <RecipeListDataView />-->
+    <!--    <RecipeListDataView />-->
     <Button
       class="p-button-rounded p-button-raised fixed"
       style="bottom: 2rem; right: 2rem"

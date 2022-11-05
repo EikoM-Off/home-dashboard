@@ -37,16 +37,16 @@ export default {
   },
   computed: {
     ingredients: {
-      get () {
+      get() {
         return this.ingredientsProp
       },
-      set (value) {
+      set(value) {
         this.$emit('update:ingredientsProp', value)
       }
     }
   },
   methods: {
-    removeIngredient (index, ingredient) {
+    removeIngredient(index, ingredient) {
       this.$confirm.require({
         message: `Вы действительно хотите удалить "${ingredient}"?`,
         header: `Удалить ингредиент?`,

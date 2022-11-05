@@ -1,20 +1,30 @@
 <template>
-  <div
-    class="grid overflow-y-auto"
-    style="height: calc(90vh - 63px)"
-  >
+  <div class="grid overflow-y-auto" style="height: calc(90vh - 63px)">
     <div class="col-12 sm:col-12 md:col-6 lg:col-4">
-      <!--        <div
-          v-if="recipe.image"
-          class="h-5rem"
-          :style="`background-image: url(${recipe.image}); background-size: cover;`"
-        />-->
-      <!--        <div class="h-5rem fixed -mt-6">
+      <div
+        class="h-5rem flex justify-content-end"
+        :style="`background-image: url(${recipe.image}); background-size: cover; background-position: center;`"
+      >
+        <Button
+          icon="pi pi-image"
+          class="p-button-rounded p-button-warning mt-2 mr-2"
+          @click="$refs.imageLinkInputOverlay.toggle($event)"
+        />
+      </div>
+
+      <OverlayPanel ref="imageLinkInputOverlay">
+        <span class="p-float-label mt-3 w-17rem">
           <InputText
+            id="imageLinkInput"
             v-model.trim="recipe.image"
-            :class="['pl-0 font-bold w-12 border-300']"
+            type="text"
+            class="pl-0 font-bold w-12 border-300"
+            @focus="$event.target.select()"
           />
-        </div>-->
+          <label for="imageLinkInput">Вставьте ссылку на изображение</label>
+        </span>
+      </OverlayPanel>
+
       <div class="lg:sticky lg:top-0">
         <InputText
           v-model.trim="recipe.title"
@@ -32,7 +42,11 @@
           </div>
           <IngredientsListEditor
             v-model:ingredients-prop="recipe.ingredients"
-            @add-ingredient="recipe.ingredients ? recipe.ingredients.push('Введите наименование') : recipe.ingredients = ['Введите наименование']"
+            @add-ingredient="
+              recipe.ingredients
+                ? recipe.ingredients.push('Введите наименование')
+                : (recipe.ingredients = ['Введите наименование'])
+            "
             @remove-ingredient="recipe.ingredients.splice($event, 1)"
           />
         </div>
@@ -62,8 +76,19 @@
       </div>
     </div>
     <div class="col-12 text-center max-h-4rem">
+      <Divider v-if="id !== null" />
+      <Button
+        v-if="id !== null"
+        class="w-12 sm:w-6 lg:w-3 p-button-danger"
+        label="Удалить"
+        @click="removeRecipe"
+      />
       <Divider />
-      <Button class="w-12 sm:w-6 lg:w-3 p-button-success" label="Сохранить" @click="saveOrPushRecipe" />
+      <Button
+        class="w-12 sm:w-6 lg:w-3 p-button-success"
+        label="Сохранить"
+        @click="saveOrPushRecipe"
+      />
     </div>
   </div>
 </template>
@@ -81,7 +106,7 @@ export default {
         title: 'Введите название блюда',
         ingredients: [],
         cookSteps: [],
-        date: new Date(),
+        date: `${new Date().getDay()}.${new Date().getMonth()}.${new Date().getFullYear()}`,
         author: 'HZ'
       })
     },
@@ -97,10 +122,28 @@ export default {
     this.recipe = JSON.parse(JSON.stringify(this.recipeProp))
   },
   methods: {
-    saveOrPushRecipe () {
-      if(this.id === null) this.$store.dispatch('pushNewRecipe', this.recipe)
-      if(this.id !== null) this.$store.dispatch('updateRecipe', {id: this.id, recipe: this.recipe})
+    saveOrPushRecipe() {
+      if (this.id === null) this.$store.dispatch('pushNewRecipe', this.recipe)
+      if (this.id !== null)
+        this.$store.dispatch('updateRecipe', {
+          id: this.id,
+          recipe: this.recipe
+        })
       this.$emit('closeBottomBar')
+    },
+    removeRecipe() {
+      this.$confirm.require({
+        header: `Удалить рецепт?`,
+        message: `Вы действительно хотите удалить "${this.recipe.title}"?`,
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Да',
+        acceptClass: 'p-button-danger',
+        rejectLabel: 'Нет',
+        accept: () => {
+          if (this.id !== null) this.$store.dispatch('removeRecipe', this.id)
+          this.$emit('closeBottomBar')
+        }
+      })
     }
   }
 }

@@ -49,16 +49,16 @@ export default {
   },
   computed: {
     step: {
-      get () {
+      get() {
         return this.stepProp
       },
-      set (value) {
+      set(value) {
         this.$emit('update:stepProp', value)
       }
     }
   },
   methods: {
-    removeStep () {
+    removeStep() {
       this.$confirm.require({
         message: `Вы действительно хотите удалить "${this.step.title}"?`,
         header: `Удалить шаг готовки?`,

@@ -1,19 +1,24 @@
 <template>
   <div>
-    <div class="mt-2 grid gap-3">
+    <div class="mt-2 grid">
       <div v-if="!recipes" class="flex justify-content-center col-12">
-       <span class="p-component text-3xl">Рецептов не найдено, добавим?</span>
+        <span class="p-component text-3xl">Рецептов не найдено, добавим?</span>
       </div>
-      <RecipeCard
+      <div
         v-for="(recipe, index) in recipes"
-        :id="index"
         :key="'recipe' + index"
-        class="shadow-1 col-12 md:col-6 lg:col-4 border-round-xl"
-        :recipe="recipe"
-        @open-recipe=";[(currentRecipeId = $event), (isVisibleSidebar = true)]"
-      />
+        class="p-1 md:p-2 lg:p-2 col-12 md:col-6 lg:col-4 max-h-30rem"
+      >
+        <RecipeCard
+          :id="index"
+          class="shadow-1 border-round-xl h-full"
+          :recipe="recipe"
+          @open-recipe="
+            ;[(currentRecipeId = $event), (isVisibleSidebar = true)]
+          "
+        />
+      </div>
     </div>
-
     <Sidebar
       v-model:visible="isVisibleSidebar"
       :class="classes['custom-sidebar']"
@@ -32,14 +37,14 @@
         v-if="isEdit || currentRecipeId === null"
         :id="currentRecipeId"
         :recipe-prop="getRecipeById(currentRecipeId)"
-        @close-bottom-bar="[isVisibleSidebar = false, isEdit = false]"
+        @close-bottom-bar=";[(isVisibleSidebar = false), (isEdit = false)]"
       />
       <Button
-          v-if="!isEdit && currentRecipeId !== null"
-          class="p-button-rounded p-button-raised fixed p-button-warning"
-          style="bottom: 2rem; right: 2rem"
-          icon="pi pi-pencil"
-          @click="isEdit = true"
+        v-if="!isEdit && currentRecipeId !== null"
+        class="p-button-rounded p-button-raised fixed p-button-warning"
+        style="bottom: 2rem; right: 2rem"
+        icon="pi pi-pencil"
+        @click="isEdit = true"
       />
     </Sidebar>
   </div>
