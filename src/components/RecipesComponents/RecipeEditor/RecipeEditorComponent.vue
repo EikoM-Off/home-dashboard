@@ -71,7 +71,9 @@
         <Button
           label="Добавить шаг"
           class="w-12 sm:w-6 lg:w-3"
-          @click="recipe.cookSteps.push({ title: 'Шаг', content: '' })"
+          @click="recipe.cookSteps
+                ? recipe.cookSteps.push({ title: 'Шаг', content: '' })
+                : (recipe.cookSteps = [{ title: 'Шаг', content: '' }])"
         />
       </div>
     </div>
