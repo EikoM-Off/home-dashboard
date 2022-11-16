@@ -10,7 +10,7 @@
     <template #title>
       <div class="flex flex-row justify-content-between align-items-center">
         <i class="pi pi-shopping-cart text-xl" />
-        Списки покупок/заданий
+        Списки покупок
         <Button
           v-tooltip.left="'Создать новый список'"
           icon="pi pi-plus"

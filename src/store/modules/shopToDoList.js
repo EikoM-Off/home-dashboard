@@ -22,10 +22,15 @@ export default {
         settings: {
           title: data.title
         },
-        items: data.ingredients.map((el) => {
-          return { title: el, isDone: false }
-        })
+        items: data.ingredients.reduce(
+          (o, val, key) => ({
+            ...o,
+            ['item' + key]: { title: val, isDone: false }
+          }),
+          {}
+        )
       }
+      console.log(list)
       push(ref(db, 'shopToDoLists'), list).then(() => {
         app.config.globalProperties.$toast.add({
           severity: 'success',

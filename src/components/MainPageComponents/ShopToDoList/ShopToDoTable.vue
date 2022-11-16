@@ -3,7 +3,7 @@
     <ul class="pl-5 pr-5 overflow-y-auto max-h-24rem">
       <li
         v-for="(item, index) in list"
-        :key="'row' + item.title + item.isDone + index"
+        :key="'row' + index"
         class="flex flex-row w-12 gap-2 justify-content-between align-items-center mb-2 border-bottom-1 border-300"
       >
         <Checkbox v-model="item.isDone" :binary="true" @change="updateList" />
