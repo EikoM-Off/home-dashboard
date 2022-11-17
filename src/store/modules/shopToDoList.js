@@ -122,7 +122,7 @@ export default {
     }
   },
   state: {
-    shopToDoLists: [],
+    shopToDoLists: null,
     hashList: []
   },
   getters: {

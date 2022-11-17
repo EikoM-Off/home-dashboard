@@ -14,7 +14,7 @@
       </template>
     </Toolbar>
 
-    <Sidebar v-model:visible="isVisibleSidebar">
+    <Sidebar v-model:visible="isVisibleSidebar" class="full-height">
       <SidebarContent />
     </Sidebar>
   </div>
@@ -40,4 +40,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.full-height :global(.p-sidebar-content) {
+  height: 100% !important;
+}
+</style>

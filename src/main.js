@@ -33,6 +33,7 @@ import CardCustom from '@/layout/CardCustom'
 import Editor from 'primevue/editor'
 import DataView from 'primevue/dataview'
 import Dropdown from 'primevue/dropdown'
+import Listbox from 'primevue/listbox'
 import OverlayPanel from 'primevue/overlaypanel'
 
 import './registerServiceWorker'
@@ -53,6 +54,7 @@ app.component('Button', Button)
 app.component('SplitButton', SplitButton)
 app.component('InputText', InputText)
 app.component('Card', Card)
+app.component('Listbox', Listbox)
 app.component('Skeleton', Skeleton)
 app.component('DataTable', DataTable)
 app.component('Column', Column)
