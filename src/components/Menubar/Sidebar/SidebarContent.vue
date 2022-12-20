@@ -10,7 +10,7 @@ import SidebarNavigationsLink from '@/components/Menubar/Sidebar/SidebarNavigati
 import SideBarFooter from '@/components/Menubar/Sidebar/SideBarFooter'
 export default {
   name: 'SidebarContent',
-  components: {SideBarFooter, SidebarNavigationsLink }
+  components: { SideBarFooter, SidebarNavigationsLink }
 }
 </script>
 

@@ -33,6 +33,8 @@ import CardCustom from '@/layout/CardCustom'
 import Editor from 'primevue/editor'
 import DataView from 'primevue/dataview'
 import Dropdown from 'primevue/dropdown'
+import Accordion from 'primevue/accordion'
+import AccordionTab from 'primevue/accordiontab'
 import Listbox from 'primevue/listbox'
 import OverlayPanel from 'primevue/overlaypanel'
 
@@ -66,6 +68,8 @@ app.component('CardCustom', CardCustom)
 app.component('Editor', Editor)
 app.component('DataView', DataView)
 app.component('Dropdown', Dropdown)
+app.component('Accordion', Accordion)
+app.component('AccordionTab', AccordionTab)
 app.component('OverlayPanel', OverlayPanel)
 
 app.mount('#app')

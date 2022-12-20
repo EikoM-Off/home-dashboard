@@ -118,6 +118,6 @@ export default {
 
 <style module="classes">
 .custom-sidebar {
-  height: 90vh;
+  height: 90vh !important;
 }
 </style>

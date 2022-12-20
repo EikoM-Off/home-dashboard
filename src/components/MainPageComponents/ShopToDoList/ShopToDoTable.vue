@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="pl-5 pr-5 overflow-y-auto max-h-24rem">
+    <ul class="pl-2 pr-2 md:pl-5 md:pr-5 overflow-y-auto max-h-24rem">
       <li
         v-for="(item, index) in list"
         :key="'row' + index"
@@ -25,7 +25,7 @@
       </li>
     </ul>
 
-    <div class="flex justify-content-center" style="height: 0">
+    <div class="flex justify-content-center h-2rem">
       <Button
         v-tooltip.left="'Добавить элемент'"
         icon="pi pi-plus text-2xl"

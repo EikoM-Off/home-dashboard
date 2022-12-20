@@ -9,7 +9,8 @@
     "flint": "npm run lint && npm run format",
     "lint": "vue-cli-service lint",
     "format": "prettier .  --write",
-    "deploy": "firebase deploy --only hosting"
+    "deploy": "firebase deploy --only hosting",
+    "bdeploy": "npm run build && npm run deploy"
   },
   "dependencies": {
     "animate.css": "^4.1.1",

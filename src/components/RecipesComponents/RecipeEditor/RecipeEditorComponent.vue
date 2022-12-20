@@ -81,18 +81,21 @@
     </div>
     <div class="col-12 text-center max-h-4rem">
       <Divider v-if="id !== null" />
-      <Button
-        v-if="id !== null"
-        class="w-12 sm:w-6 lg:w-3 p-button-danger"
-        label="Удалить"
-        @click="removeRecipe"
-      />
-      <Divider />
-      <Button
-        class="w-12 sm:w-6 lg:w-3 p-button-success"
-        label="Сохранить"
-        @click="saveOrPushRecipe"
-      />
+      <div
+        class="flex flex-column-reverse md:flex-row md:justify-content-evenly gap-4"
+      >
+        <Button
+          v-if="id !== null"
+          class="w-12 sm:w-6 lg:w-3 p-button-danger p-button-text"
+          label="Удалить"
+          @click="removeRecipe"
+        />
+        <Button
+          class="w-12 h-4rem md:h-full sm:w-6 lg:w-3 p-button-success"
+          label="Сохранить"
+          @click="saveOrPushRecipe"
+        />
+      </div>
     </div>
   </div>
 </template>

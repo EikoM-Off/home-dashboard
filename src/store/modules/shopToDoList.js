@@ -30,7 +30,6 @@ export default {
           {}
         )
       }
-      console.log(list)
       push(ref(db, 'shopToDoLists'), list).then(() => {
         app.config.globalProperties.$toast.add({
           severity: 'success',

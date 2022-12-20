@@ -27,31 +27,18 @@
       </div>
     </template>
     <template #content>
-      <TabView
+      <Accordion
         v-if="shopToDoLists"
         v-model:activeIndex="activeTab"
-        :scrollable="true"
+        class="h-30rem overflow-y-auto"
       >
-        <TabPanel
+        <AccordionTab
           v-for="(list, id) in shopToDoLists"
           :key="list.settings.title + id"
         >
           <template #header>
-            <Button
-              class="p-button-sm p-button-text p-button-rounded p-button-secondary mr-2"
-              icon="pi pi-pencil"
-              aria-controls="overlay_panel"
-              aria:haspopup="true"
-              @click="
-                ;[
-                  (currentList = list),
-                  (currentListId = id),
-                  $refs.op.toggle($event)
-                ]
-              "
-            />
-            <span
-              class="trimmed-text-2"
+            <div
+              class="flex w-12 align-items-baseline justify-content-between"
               @contextmenu.prevent="
                 ;[
                   (currentList = list),
@@ -60,12 +47,27 @@
                 ]
               "
             >
-              {{ list.settings.title }}
-            </span>
+              <span class="trimmed-text-2">
+                {{ list.settings.title }}
+              </span>
+              <Button
+                class="p-button-sm p-button-text p-button-rounded p-button-secondary mr-2"
+                icon="pi pi-pencil"
+                aria-controls="overlay_panel"
+                aria:haspopup="true"
+                @click="
+                  ;[
+                    (currentList = list),
+                    (currentListId = id),
+                    $refs.op.toggle($event)
+                  ]
+                "
+              />
+            </div>
           </template>
           <ShopToDoTable v-model:list="list.items" class="-m-3" :list-id="id" />
-        </TabPanel>
-      </TabView>
+        </AccordionTab>
+      </Accordion>
 
       <div v-if="!shopToDoLists" class="w-12 flex justify-content-center">
         Пока нет списков (｡•́︿•̀｡)
@@ -87,8 +89,6 @@
 </template>
 
 <script>
-import TabView from 'primevue/tabview'
-import TabPanel from 'primevue/tabpanel'
 import { mapGetters } from 'vuex'
 import ShopToDoTable from '@/components/MainPageComponents/ShopToDoList/ShopToDoTable'
 import OverlayPanel from 'primevue/overlaypanel'
@@ -100,9 +100,7 @@ export default {
   components: {
     ListSettings,
     ShopToDoTable,
-    OverlayPanel,
-    TabView,
-    TabPanel
+    OverlayPanel
   },
   data: () => ({
     activeTab: 0,

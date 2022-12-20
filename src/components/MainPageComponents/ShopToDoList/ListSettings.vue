@@ -25,10 +25,10 @@
     </template>
     <template #footer>
       <Divider class="mt-0" />
-      <div class="flex justify-content-between">
+      <div class="flex justify-content-between gap-2">
         <Button
           icon="pi pi-trash"
-          class="p-button-danger"
+          class="p-button-danger p-button-text"
           label="Удалить"
           @click="removeList"
         />
